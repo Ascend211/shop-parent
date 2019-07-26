@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC  
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+   
+<mapper namespace="com.fh.shop.mapper.area.IAreaMapper">
+	
+	
+	<select id="findAllAreaList" resultType="com.fh.shop.po.area.Area">
+		select id,areaName,fatherId from t_area
+	</select>
+	
+	<insert id="addArea" parameterType="com.fh.shop.po.area.Area">
+		<selectKey resultType="int" keyProperty="id" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into t_area (areaName,fatherId) values (#{areaName},#{fatherId})
+	</insert>
+	
+	<update id="updateArea" parameterType="com.fh.shop.po.area.Area">
+		update t_area set areaName=#{areaName} where id=#{id}
+	</update>
+
+	<delete id="deleteArea">
+		delete from t_area where id in
+		<foreach collection="list" item="id" separator="," open="(" close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC  
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+   
+<mapper namespace="com.fh.shop.mapper.user.IUserMapper">
+	
+	
+	<select id="findUserByUserName" resultType="com.fh.shop.po.user.User" parameterType="string">
+		select id,userName,userPwd,salt,realName,loginTime from t_user where userName=#{v}
+	</select>
+	
+	<insert id="addUser" parameterType="com.fh.shop.po.user.User">
+		insert into t_user (userName,userPwd,realName,salt) values (#{userName},#{userPwd},#{realName},#{salt})
+	</insert>
+	
+	<update id="updateLoginTime">
+		update t_user set loginTime=#{date} where id=#{id}
+	</update>
+	
+</mapper>

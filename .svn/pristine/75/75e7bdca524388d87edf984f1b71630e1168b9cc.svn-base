@@ -1,0 +1,15 @@
+api.product.hot.list.url=http://localhost:8085/api/product/list
+
+sms.url=https://api.netease.im/sms/sendcode.action
+sms.templateid=14798361
+sms.AppKey=62d59c083b071e6c559a85e73ef696cc
+sms.secretKey=f67430c05f8b
+
+redis.host=192.168.124.69
+redis.port=7020
+
+oss.endpoint=http://oss-cn-beijing.aliyuncs.com
+oss.accessKeyId=LTAIbR7QSG30S8Cp
+oss.accessKeySecret=cEklMclWgrrKIGpsnrWdL6GRyqxJK7
+oss.bucketName=fh-yuxy
+oss.ossUrl=https://fh-yuxy.oss-cn-beijing.aliyuncs.com/

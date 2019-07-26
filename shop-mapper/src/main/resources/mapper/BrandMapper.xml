@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC  
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+   
+<mapper namespace="com.fh.shop.mapper.brand.IBrandMapper">
+	
+	
+	<select id="findAllBrandList" resultType="com.fh.shop.po.brand.Brand">
+		select id,brandName from t_brand
+	</select>
+	
+	<select id="findBrandPageList" parameterType="com.fh.shop.param.brand.BrandSearchParam" resultType="com.fh.shop.po.brand.Brand">
+		select t.* from (select id,brandName,isRecommend, logo,orderPos from t_brand
+		order by orderPos,id desc) t limit #{start},#{length}
+	</select>
+	
+	<update id="updateStatus">
+		update t_brand set isRecommend=#{status} where id=#{id}
+	</update>
+	
+	
+	<select id="findBrandListCount" parameterType="com.fh.shop.param.brand.BrandSearchParam" resultType="long">
+		select count(*) from t_brand
+	</select>
+	
+	<insert id="addBrand" parameterType="com.fh.shop.po.brand.Brand">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+		insert into t_brand (brandName, createDate, isRecommend, logo,orderPos) values
+		(#{brandName},#{createDate},#{isRecommend},#{logo},#{orderPos})
+	</insert>
+
+</mapper>

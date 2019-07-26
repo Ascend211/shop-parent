@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+    "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fh.shop.mapper.product.IProductMapper">
+
+
+	<insert id="addProduct" parameterType="com.fh.shop.po.product.Product">
+		insert into t_product (productName,price,createDate,brandId,gc1,gc2,gc3,categoryName,mainImagePath,isHot)
+		values (#{productName},#{productPrice},#{createDate},#{brand.id},#{gc1},#{gc2},#{gc3},#{categoryName},#{mainImagePath},#{isHot})
+	</insert>
+	
+	<insert id="addBatchProduct">
+		insert into t_product (productName,price,createDate,brandId)
+		values
+		<foreach collection="list" item="p" separator=",">
+			(#{p.productName},#{p.productPrice},#{p.createDate},#{p.brand.id})
+		</foreach>
+
+	</insert>
+
+	<sql id="productWhere">
+			where status != 3
+			<if test="productName != null and productName != ''">
+				and productname like concat('%',#{productName},'%')
+			</if>
+			<if test="minPrice != null and minPrice >= 0">
+				and price >= #{minPrice}
+			</if>
+			<if test="maxPrice != null and maxPrice >= 0">
+				and price &lt;= #{maxPrice}
+			</if>
+			<if test="minDate != null">
+				and createDate >= #{minDate}
+			</if>
+			<if test="maxDate != null">
+				and createDate &lt;= #{maxDate}
+			</if>
+			<if test="brandId != null and brandId > 0">
+				and brandId = #{brandId}
+			</if>
+			<if test="gc1 != null and gc1 > 0">
+				and gc1 = #{gc1}
+			</if>
+			<if test="gc2 != null and gc2 > 0">
+				and gc2 = #{gc2}
+			</if>
+			<if test="gc3 != null and gc3 > 0">
+				and gc3 = #{gc3}
+			</if>
+
+	</sql>
+
+	<select id="findProductListCount" resultType="long" parameterType="com.fh.shop.param.product.ProductSearchParam">
+		select count(*) from t_product
+		<include refid="productWhere"></include>
+	</select>
+
+	<update id="deleteBatch">
+		update  t_product
+		set status=3
+		where id in
+		<foreach collection="list" open="(" close=")" separator="," item="v">
+			#{v}
+		</foreach>
+	</update>
+
+	<select id="findProductList" resultType="com.fh.shop.po.product.Product" parameterType="com.fh.shop.param.product.ProductSearchParam">
+		select t.* from (
+		select p.id,productName,isHot,price productPrice,p.createDate,status,brandName "brand.brandName",categoryName,mainImagePath from t_product p
+		left join t_brand b on p.brandid = b.id
+		<include refid="productWhere"></include>
+		order by id desc
+		) t
+		limit #{start},#{length}
+	</select>
+	
+	<select id="findAllProductList" resultType="com.fh.shop.po.product.Product" parameterType="com.fh.shop.param.product.ProductSearchParam">
+
+		select p.id,productName,price productPrice,p.createDate,brandName "brand.brandName",categoryName from t_product p
+		left join t_brand b on p.brandid = b.id
+		<include refid="productWhere"></include>
+		order by id desc
+
+	</select>
+
+	<update id="deleteProduct" parameterType="int">
+  	update t_product set status=3 where id=#{value}
+	</update>
+
+	<select id="findProduct" parameterType="int" resultType="com.fh.shop.po.product.Product">
+		select id,productName,price productPrice,createDate,brandId "brand.id",
+		 gc1,gc2,gc3,categoryName,isHot,mainImagePath
+		 from t_product where id=#{value}
+	</select>
+	
+	<update id="updateProductStatus" >
+		update t_product set status=#{status} where id=#{id}
+	</update>
+
+	<update id="updateProduct" parameterType="com.fh.shop.po.product.Product">
+		update t_product set productName=#{productName},price=#{productPrice},
+		createDate=#{createDate},brandid=#{brand.id},isHot=#{isHot},
+		  gc1=#{gc1},gc2=#{gc2},gc3=#{gc3},categoryName=#{categoryName},
+		  mainImagePath=#{mainImagePath}
+
+		 where id=#{id}
+	</update>
+
+
+
+</mapper>

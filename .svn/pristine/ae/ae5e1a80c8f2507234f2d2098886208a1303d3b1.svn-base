@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>欢迎</h1>${userName}来到${company}
+<table border="1px" cellpadding="0px" cellspacing="0px" bgcolor="yellow">
+    <tr>
+        <th>用户名</th>
+        <th>年龄</th>
+    </tr>
+    <#list users as user>
+        <tr>
+            <td>${user.userName}</td>
+            <td>${user.age}</td>
+        </tr>
+    </#list>
+</table>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC  
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+   
+<mapper namespace="com.fh.shop.mapper.log.ILogMapper">
+	
+	
+	<insert id="addLog" parameterType="com.fh.shop.po.log.Log">
+		insert into t_log (userName,info,createDate,status,detailInfo,content) values (#{userName},#{info},#{createDate},#{status},#{detailInfo},#{content})
+	</insert>
+
+	<sql id="logWhere">
+		<where>
+			<if test="userName != null and userName != ''">
+				username like concat('%',#{userName},'%')
+			</if>
+			<if test="status != null and status > -1">
+				and status = #{status}
+			</if>
+			<if test="minCreateDate != null">
+				and createDate >= #{minCreateDate}
+			</if>
+			<if test="maxCreateDate != null">
+				and createDate &lt;= #{maxCreateDate}
+			</if>
+			<if test="content != null and content != ''">
+				and content like concat('%', #{content}, '%')
+			</if>
+
+		</where>
+	</sql>
+	
+	<select id="findLogCount" parameterType="com.fh.shop.param.log.LogSearchParam" resultType="int">
+			select count(*) from t_log
+			<include refid="logWhere"></include>
+	</select>
+	
+	<select id="findLogList" parameterType="com.fh.shop.param.log.LogSearchParam" resultType="com.fh.shop.po.log.Log">
+		select t.* from (select id,userName,info,createDate,status,detailInfo,content from t_log
+		<include refid="logWhere"></include>
+		order by createDate desc
+		) t
+		limit #{start},#{length}
+	</select>
+	
+
+	
+</mapper>

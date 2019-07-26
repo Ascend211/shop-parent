@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+   <title>Document</title>
+   <style>
+    body{
+     font-family:SimHei;
+    }
+   </style>
+ </head>
+ <body>
+  <h1 style="text-align: center;"><strong>${companyName}</strong></h1>
+<h3><span style="color: #ff0000;"><strong><strong>红头文件：</strong></strong></span></h3>
+<table style="width: 503px; margin-left: auto; margin-right: auto;" border="1px" cellpadding="0px" cellspacing="0px" >
+<tbody>
+<tr style="height: 40px;">
+<td style="width: 109px; height: 40px; text-align: center;">
+<p>商品名称</p>
+</td>
+<td style="width: 143px; height: 40px; text-align: center;">
+<p>商品价格</p>
+</td>
+<td style="width: 231px; height: 40px; text-align: center;">
+<p>品牌名称</p>
+</td>
+</tr>
+<#list products as product>
+<tr style="height: 39.3281px;">
+<td style="width: 109px; height: 39.3281px; text-align: center;">&nbsp;${product.productName}</td>
+<td style="width: 143px; height: 39.3281px; text-align: center;">&nbsp;<font color="red"> ${product.productPrice}</font></td>
+<td style="width: 231px; height: 39.3281px; text-align: center;">&nbsp;${product.brand.brandName}</td>
+</tr>
+</#list>
+</tbody>
+</table>
+<p style="text-align: right;">单位：${companyName}</p>
+<p style="text-align: right;">时间：${createDate}</p>
+ </body>
+</html>

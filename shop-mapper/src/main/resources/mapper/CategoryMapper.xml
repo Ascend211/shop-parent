@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC  
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+   
+<mapper namespace="com.fh.shop.mapper.category.ICategoryMapper">
+	
+	
+	<select id="findChildCategoryList" parameterType="int" resultType="com.fh.shop.po.category.Category">
+		select id,categoryName,fatherId from t_category where fatherId=#{value}
+	</select>
+	
+</mapper>
